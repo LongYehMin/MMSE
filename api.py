@@ -9,10 +9,12 @@ Gmodel = pickle.load(open('Gclassifier.pkl','rb'))
 
 st.title("Welcome to MMSE and GDS-15 Prediction")
 st.write("""## We need some information to predict the MMSE and GDS-15""")
-def hide_anchor_link():
-    st.markdown("""
+
+st.markdown("""
         <style>
         .css-15zrgzn {display: none}
+        .css-eczf16 {display: none}
+        .css-jn99sy {display: none}
         </style>
         """, unsafe_allow_html=True)
 
