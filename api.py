@@ -4,7 +4,7 @@ import pickle
 import numpy as np
 
 # Loading up the trained model
-Mmodel = pickle.load(open('MMSE/Mclassifier.pkl', 'rb'))
+Mmodel = pickle.load(open('Mclassifier.pkl', 'rb'))
 Gmodel = pickle.load(open('MMSE/Gclassifier.pkl','rb'))
 
 st.title("Welcome to MMSE and GDS-15 Prediction")
