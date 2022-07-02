@@ -72,4 +72,3 @@ if submit:
     GDSprediction = GDS
     if GDSprediction == 2: st.error("GDS result is Depression")
     else: st.success("GDS result is Normal") 
-  
