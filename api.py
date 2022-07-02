@@ -44,18 +44,6 @@ marital_opt = st.selectbox("Select marital status:", marital.keys(), format_func
 living = {1:"Sendirian", 2:"Bersama Orang Lain"}
 living_opt = st.selectbox("Select living status:", living.keys(), format_func=lambda x:living[ x ])
 
-#health features
-st.write("""### Health status form""")
-smoking = {1:"Smoker", 2:"Ex smoker",3:"None smoker"}
-smoking_opt = st.selectbox("Do you smoke:", smoking.keys(), format_func=lambda x:smoking[ x ])
-
-alcohol = {2:"Yes", 1:"No"}
-alcohol_opt = st.selectbox("Do you drink alcohol:", alcohol.keys(), format_func=lambda x:alcohol[ x ])
-
-adl = st.slider("Score of Activities of Daily Living (0: Very dependent  to   6: Independant)", 0,6)
-
-whodas = st.slider("Score of WHO Disability Assessment (0: None  4:Very Serious  5: Not Relevant)", 0,5)
-
 #psychology features
 st.write("""### Psychology status form""")
 
@@ -68,25 +56,10 @@ epq_opt = st.selectbox("Eysenck Personality Questionnaire EPQ :", epq.keys(), fo
 
 loneliness = st.slider("Scale of Loneliness (1: Hardly ever  to   3: Often)", 1,3)
 
-#social features
-st.write("""### Social status form""")
-
-sumlubben = st.slider("Scale of Lubben Social Network (0: Less social  to   5: More social)", 0,5)
-
-nfeel = st.slider("Feelings towards Neighbourhood (1: Very bad  to   4: Very good)", 1,4)
-
-cohesion = st.slider("Scale of Cohesion (0: Strongly disagree  to   5: Strongly agree)", 1,5)
-
-st.write("""##### Medical Outcome Study Social Factor""")
-info = st.slider("Information (0: None of the time  to   3: All of the time)", 0,3)
-tangible = st.slider("Tangible support (0: None of the time  to   3: All of the time)", 0,3)
-affective= st.slider("Affective support (0: None of the time  to   3: All of the time)", 0,3)
-interaction = st.slider("Interaction (0: None of the time  to   3: All of the time)", 0,3)
-
 submit = st.button("Predict")
 
 if submit:
-    X = np.array([[age,gender_opt,state_opt,tm_income,job_opt,psector_opt,marital_opt,living_opt,smoking_opt,alcohol_opt,adl,whodas,sumlubben,nfeel,cohesion,info,tangible,affective,interaction,qol,swls,epq_opt,loneliness]])
+    X = np.array([[age,gender_opt,state_opt,tm_income,job_opt,psector_opt,marital_opt,living_opt,qol,swls,epq_opt,loneliness]])
     MMSE = Mmodel.predict(X).tolist()[0]
     GDS = Gmodel.predict(X).tolist()[0]
 
