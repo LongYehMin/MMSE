@@ -30,6 +30,8 @@ gender_opt = st.selectbox("Select gender:", gender.keys(), format_func=lambda x:
 state = {1:"Johor", 2:"Perak", 3: "Kelantan", 4:"Selangor", 5:"Wilayah Persekutuan"}
 state_opt = st.selectbox("Select state:", state.keys(), format_func=lambda x:state[ x ])
 
+tm_income = st.number_input("Total monthly income (main + household + side)")
+
 job = {1:"Manager", 2:"Professional", 3: "Technicians", 4:"Clerical", 5:"Sales and Service", 6:"Jobs Skilled", 7:"Craft and Trades", 8:"Plant and Machine Operators", 9:"Basic Jobs", 10:"Military"}
 job_opt = st.selectbox("Select job:", job.keys(), format_func=lambda x:job[ x ])
 
@@ -84,7 +86,7 @@ interaction = st.slider("Interaction (0: None of the time  to   3: All of the ti
 submit = st.button("Predict")
 
 if submit:
-    X = np.array([[age,gender_opt,state_opt,job_opt,psector_opt,marital_opt,living_opt,smoking_opt,alcohol_opt,adl,whodas,sumlubben,nfeel,cohesion,info,tangible,affective,interaction,qol,swls,epq_opt,loneliness]])
+    X = np.array([[age,gender_opt,state_opt,tm_income,job_opt,psector_opt,marital_opt,living_opt,smoking_opt,alcohol_opt,adl,whodas,sumlubben,nfeel,cohesion,info,tangible,affective,interaction,qol,swls,epq_opt,loneliness]])
     MMSE = Mmodel.predict(X).tolist()[0]
     GDS = Gmodel.predict(X).tolist()[0]
 
