@@ -59,7 +59,6 @@ submit = st.button("Predict")
 
 if submit:
     X = np.array([[tm_income,age,marital_bdopt,state_kopt,gender_mopt,state_sopt,psector_opt, gender_fopt,marital_bopt,living_opt]])
-    st.write(X)
     MMSE = Mmodel.predict(X).tolist()[0]
     GDS = Gmodel.predict(X).tolist()[0]
 
