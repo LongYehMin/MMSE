@@ -3,6 +3,8 @@ import pandas as pd
 import pickle
 import numpy as np
 
+#Index(['total_income', 'AGE', 'Marital Status_Balu/Duda', 'NEGERI_Kelantan','GENDER_Lelaki', 'NEGERI_Selangor', 
+# 'Job Sector Previously_Public Sector', 'GENDER_Perempuan','Marital Status_Berkahwin', 'Tinggal _Sendirian'],dtype='object')
 # Loading up the trained model
 Mmodel = pickle.load(open('Mclassifier.pkl', 'rb'))
 Gmodel = pickle.load(open('Gclassifier.pkl','rb'))
@@ -24,42 +26,40 @@ st.write("""### Demographic status form""")
 
 age = st.number_input("Age",1,99)
 
-gender = {1:"Female", 2:"Male"}
-gender_opt = st.selectbox("Select gender:", gender.keys(), format_func=lambda x:gender[ x ])
+df = pd.DataFrame({"gender_name": ["Female", "Male"], "gender_f": [1, 0], "gender_m": [0, 1]})
+records = df.to_dict("records")
+gender_data = st.selectbox("Select gender", options=records, format_func=lambda record: f'{record["gender_name"]}')
+gender_fopt = gender_data.get('gender_f')
+gender_mopt = gender_data.get('gender_m')
 
-state = {1:"Johor", 2:"Perak", 3: "Kelantan", 4:"Selangor", 5:"Wilayah Persekutuan"}
-state_opt = st.selectbox("Select state:", state.keys(), format_func=lambda x:state[ x ])
+df = pd.DataFrame({"state_name": ["Johor","Perak", "Kelantan", "Selangor", "Wilayah Persekutuan"], "state_k": [0,0,1,0,0], "state_s": [0,0,0,1,0]})
+records = df.to_dict("records")
+state_data = st.selectbox("Select state", options=records, format_func=lambda record: f'{record["state_name"]}')
+state_kopt = state_data.get('state_k')
+state_sopt = state_data.get('state_s')
 
 tm_income = st.number_input("Total monthly income (main + household + side)")
 
-job = {1:"Manager", 2:"Professional", 3: "Technicians", 4:"Clerical", 5:"Sales and Service", 6:"Jobs Skilled", 7:"Craft and Trades", 8:"Plant and Machine Operators", 9:"Basic Jobs", 10:"Military"}
-job_opt = st.selectbox("Select job:", job.keys(), format_func=lambda x:job[ x ])
+df = pd.DataFrame({"marital_name": ["Bujang", "Berkahwin", "Bercerai", "Balu/Duda"], "marital_bd": [0,0,0,1], "marital_b": [0,1,0,0]})
+records = df.to_dict("records")
+marital_data = st.selectbox("Select marital status", options=records, format_func=lambda record: f'{record["marital_name"]}')
+marital_bdopt = marital_data.get('marital_bd')
+marital_bopt = marital_data.get('marital_b')
 
-psector = {1:"Public Sector", 2:"NGO", 3: "Private Sector", 4:"Self"}
-psector_opt = st.selectbox("Select previous job sector:", psector.keys(), format_func=lambda x:psector[ x ])
+df = pd.DataFrame({"psector_name": ["Public Sector", "NGO", "Private Sector", "Self"], "psector": [1,0,0,0]})
+records = df.to_dict("records")
+psector_data = st.selectbox("Select previous job sector:", options=records, format_func=lambda record: f'{record["psector_name"]}')
+psector_opt = psector_data.get('psector')
 
-marital = {1:"Bujang", 2:"Berkahwin", 3: "Bercerai", 4:"Balu/Duda"}
-marital_opt = st.selectbox("Select marital status:", marital.keys(), format_func=lambda x:marital[ x ])
-
-living = {1:"Sendirian", 2:"Bersama Orang Lain"}
+living = {1:"Sendirian", 0:"Bersama Orang Lain"}
 living_opt = st.selectbox("Select living status:", living.keys(), format_func=lambda x:living[ x ])
-
-#psychology features
-st.write("""### Psychology status form""")
-
-qol = st.slider("Scale of Quality of Life (1: Very satisfied  to   4: Not satisfied at all)", 1,4)
-
-swls = st.slider("Scale of Satisfaction with Life (0: Disagree to   2: Agree)", 0,2)
-
-epq = {1:"Yes", 0:"No"}
-epq_opt = st.selectbox("Eysenck Personality Questionnaire EPQ :", epq.keys(), format_func=lambda x:epq[ x ])
-
-loneliness = st.slider("Scale of Loneliness (1: Hardly ever  to   3: Often)", 1,3)
 
 submit = st.button("Predict")
 
+
 if submit:
-    X = np.array([[age,gender_opt,state_opt,tm_income,job_opt,psector_opt,marital_opt,living_opt,qol,swls,epq_opt,loneliness]])
+    X = np.array([[tm_income,age,marital_bdopt,state_kopt,gender_mopt,state_sopt,psector_opt, gender_fopt,marital_bopt,living_opt]])
+    st.write(X)
     MMSE = Mmodel.predict(X).tolist()[0]
     GDS = Gmodel.predict(X).tolist()[0]
 
